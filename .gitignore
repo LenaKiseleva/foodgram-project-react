@@ -130,3 +130,10 @@ dmypy.json
 
 # .idea
 .idea
+
+frontend/
+/frontend/
+/frontend
+
+back_static
+back_media
