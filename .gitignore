@@ -137,3 +137,6 @@ frontend/
 
 back_static
 back_media
+
+.isort.cfg
+.vscode

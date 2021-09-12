@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from import_export.admin import ImportMixin
 
 from recipes.models import (Cart, Favorite, Ingredient, IngredientRecipe,
@@ -15,7 +16,7 @@ class FavoriteAdmin(admin.ModelAdmin):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'name', 'text', 'cooking_time', 'image')
+    list_display = ('id', 'author', 'name', 'text', 'cooking_time', 'image',)
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -27,7 +28,6 @@ class TagRecipeAdmin(admin.ModelAdmin):
 
 
 class IngredientAdmin(ImportMixin, admin.ModelAdmin):
-    # For import csv files
     resource_class = IngredientResource
 
 
