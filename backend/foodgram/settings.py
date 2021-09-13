@@ -116,8 +116,7 @@ AUTH_USER_MODEL = 'users.User'
 
 
 REST_FRAMEWORK = {
-    # 'EXCEPTION_HANDLER': 'recipes.handlers.base_exception_handler',
-    # 'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
+    'SEARCH_PARAM': 'name',
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
     ],

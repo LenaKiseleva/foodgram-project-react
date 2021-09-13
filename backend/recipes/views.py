@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from recipes.filters import RecipeFilter
+from recipes.filters import IngredientFilter, RecipeFilter
 from recipes.models import (Cart, Favorite, Ingredient, IngredientRecipe,
                             Recipe, Tag)
 from recipes.serializers import (CreateOrUpdateRecipeSerializer,
@@ -145,6 +145,7 @@ class IngredientViewSet(ModelViewSet):
     serializer_class = IngredientSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     permission_classes = [AllowAny]
+    filter_class = IngredientFilter
     pagination_class = None
 
 
