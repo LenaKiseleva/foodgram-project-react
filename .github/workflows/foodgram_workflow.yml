@@ -34,12 +34,12 @@ jobs:
             push: true
             context: ./backend/
             tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_back:latest
-        - name: Push frontend to Docker Hub
-          uses: docker/build-push-action@v2
-          with:
-            push: true
-            context: ./frontend/
-            tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_front:latest
+        # - name: Push frontend to Docker Hub
+        #   uses: docker/build-push-action@v2
+        #   with:
+        #     push: true
+        #     context: ./frontend/
+        #     tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_front:latest
   deploy:
       runs-on: ubuntu-latest
       needs: build_and_push_to_docker_hub
@@ -53,9 +53,9 @@ jobs:
             passphrase: ${{ secrets.PASSPHRASE }}
             stack_file_name: docker-compose.yaml
             script: |
-              sudo docker pull 4178302998/foodgram_back
+              sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_back
               sudo docker-compose stop
-              sudo docker-compose rm web
+              sudo docker-compose rm backend
               touch .env
               echo DB_NAME=${{ secrets.DB_NAME }} >> .env
               echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
@@ -63,6 +63,11 @@ jobs:
               echo DB_HOST=${{ secrets.DB_HOST }} >> .env
               echo DB_PORT=${{ secrets.DB_PORT }} >> .env
               sudo docker-compose up -d
+              sudo docker-compose exec -T backend python manage.py makemigrations userd
+              sudo docker-compose exec -T backend python manage.py makemigrations recipes
+              sudo docker-compose exec -T backend python manage.py makemigrations
+              sudo docker-compose exec -T backend python manage.py migrate --noinput
+              sudo docker-compose exec -T backend python manage.py collectstatic --no-input
   send_message:
     runs-on: ubuntu-latest
     needs: deploy
