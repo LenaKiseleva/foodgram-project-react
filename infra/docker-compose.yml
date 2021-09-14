@@ -1,9 +1,4 @@
 version: '3.3'
-​
-volumes:
-    postgres_data:
-    static_value:
-    media_value:
 services:
     db:
         image: postgres:latest
@@ -15,7 +10,7 @@ services:
     frontend:
       image: 4178302998/foodgram_front:latest
       volumes:
-        - ./frontend/:/app/result_build/
+        - ./frontend_build/:/app/result_build/
       depends_on:
         - db
     backend:
@@ -28,7 +23,6 @@ services:
             - db
         env_file:
             - ./.env
-    
     nginx:
         image: nginx:1.19.3
         ports:
@@ -42,7 +36,6 @@ services:
             #- ../docs/openapi-schema.yml:/usr/share/nginx/html/api/docs/openapi-schema.yml
             - ../docs/:/usr/share/nginx/html/api/docs/
         restart: always
-​
         depends_on:
             - backend
             - frontend
@@ -50,4 +43,4 @@ volumes:
   static_value:
   media_value:
   frontend_build:
-  postgres:
+  postgres_data:
