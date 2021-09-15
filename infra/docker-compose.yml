@@ -15,6 +15,9 @@ services:
         - db
     backend:
         image: 4178302998/foodgram_back:latest
+        build:
+            context: ../backend/foodgram
+            dockerfile: Dockerfile
         restart: always
         volumes:
             - static_value:/code/back_static/
