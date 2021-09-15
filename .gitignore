@@ -140,3 +140,4 @@ back_media
 
 .isort.cfg
 .vscode
+backend/static
