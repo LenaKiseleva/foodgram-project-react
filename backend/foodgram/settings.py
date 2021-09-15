@@ -7,15 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-b4ryon51r9#4w=%yxkb$pm&&rph+erzdcrk2ncf1y45!&_=%+)'
 
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
-
-# ALLOWED_HOSTS = [
-#     '130.193.54.241',
-#     'formulations.tk',
-#     'www.formulations.tk',
-# ]
+ALLOWED_HOSTS = ['130.193.54.241']
 
 
 INSTALLED_APPS = [
