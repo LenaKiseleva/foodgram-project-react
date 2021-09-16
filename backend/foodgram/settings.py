@@ -9,7 +9,13 @@ SECRET_KEY = 'django-insecure-b4ryon51r9#4w=%yxkb$pm&&rph+erzdcrk2ncf1y45!&_=%+)
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['130.193.54.241', 'localhost']
+
+ALLOWED_HOSTS = [
+    '178.154.195.103',
+    'localhost',
+    'formulations.ml',
+    'www.formulations.ml',
+]
 
 
 INSTALLED_APPS = [
@@ -104,11 +110,11 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/back_static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'back_static')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/back_media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'back_media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
