@@ -206,7 +206,8 @@ class CreateOrUpdateRecipeSerializer(serializers.ModelSerializer):
         recipe_ingredients = {}
         before_set_ingredients = get_list_or_404(IngredientRecipe,
                                                  recipe=instance.id)
-        before_set_ingredients.delete()
+        for before_set_ingredient in before_set_ingredients:
+            before_set_ingredient.delete()
         for item in ingredients:
             amount = item.pop('amount')
             ingredient = item.pop('ingredient')
