@@ -12,6 +12,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     '178.154.195.103',
+    'web',
     'localhost',
     'formulations.ml',
     'www.formulations.ml',

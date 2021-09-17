@@ -25,12 +25,18 @@ class IngredientSerializer(serializers.ModelSerializer):
 class GetRecipeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(read_only=True)
-    image = Base64ImageField(read_only=True, use_url=True)
+    image = Base64ImageField(read_only=True)
     cooking_time = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time',)
+
+    def to_representation(self, instance):
+        response = super(GetRecipeSerializer, self).to_representation(instance)
+        if instance.image:
+            response['image'] = instance.image.url
+        return response
 
 
 class TagRecipeSerializer(serializers.ModelSerializer):
@@ -200,8 +206,7 @@ class CreateOrUpdateRecipeSerializer(serializers.ModelSerializer):
         recipe_ingredients = {}
         before_set_ingredients = get_list_or_404(IngredientRecipe,
                                                  recipe=instance.id)
-        for _ in before_set_ingredients:
-            _.delete()
+        before_set_ingredients.delete()
         for item in ingredients:
             amount = item.pop('amount')
             ingredient = item.pop('ingredient')
