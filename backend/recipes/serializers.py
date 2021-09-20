@@ -2,7 +2,7 @@ from django.db import transaction
 from django.shortcuts import get_list_or_404
 
 from drf_base64.fields import Base64ImageField
-from rest_framework import serializers
+from rest_framework import exceptions, serializers
 
 from recipes.models import (Cart, Favorite, Ingredient, IngredientRecipe,
                             Recipe, Tag, TagRecipe)
@@ -157,10 +157,10 @@ class CreateOrUpdateRecipeSerializer(serializers.ModelSerializer):
         for ingredient in ingredients:
             amount = ingredient['amount']
         if amount < 1:
-            raise serializers.ValidationError(
-                {'amount': 'Поле amount не может быть отрицательным'}
-            )
-        return data
+            error_data = {
+                'amount': ['Убедитесь, что указали значение больше 0.']
+            }
+            raise exceptions.ParseError(error_data)
 
     def to_representation(self, instance):
         serializer = RecipeSerializer(instance, context=self.context)

@@ -14,6 +14,7 @@ from rest_framework.viewsets import ModelViewSet
 from recipes.filters import IngredientFilter, RecipeFilter
 from recipes.models import (Cart, Favorite, Ingredient, IngredientRecipe,
                             Recipe, Tag)
+from recipes.paginations import CustomPagination
 from recipes.serializers import (CreateOrUpdateRecipeSerializer,
                                  GetRecipeSerializer, IngredientSerializer,
                                  RecipeSerializer, TagSerializer)
@@ -86,13 +87,35 @@ class ShoppingCartDetail(APIView):
 
 
 class RecipeViewSet(ModelViewSet):
-    queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     permission_classes = [IsAuthenticatedOrReadOnly, ]
     pagination_class = PageNumberPagination
     filter_backends = [DjangoFilterBackend]
     filter_class = RecipeFilter
+
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                cart = self.request.query_params.get(
+                    'is_in_shopping_cart',
+                    None,
+                )
+                if cart is not None:
+                    self._paginator = CustomPagination()
+                else:
+                    self._paginator = self.pagination_class()
+        return self._paginator
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+        if ('is_in_shopping_cart' in self.request.query_params and
+           self.request.query_params['is_in_shopping_cart'] == 'true'):
+            queryset = queryset.filter(purchase_recipe__user=self.request.user)
+        return queryset
 
     def get_serializer_class(self):
         if self.request.method == 'GET':

@@ -95,8 +95,23 @@ const RecipeCreate = ({ onEdit }) => {
             }
             const errors = Object.values(err)
             if (errors) {
-              alert(errors.join(', '))
+              let err_messages = [];
+              errors.forEach(val => {
+                for (const key in val) {
+                  console.log(val)
+                  if (val[key] != "Ensure this value is greater than or equal to 1.") {
+                    for (const i in val[key]) {
+                      err_messages.push(`${val[key][i]}`)
+                    }
+                    alert(err_messages.join('\n'))
+                  } else {
+                    err_messages.push(`${val[key]}`)
+                  }
+                }
+              })
+              alert(err_messages.join('\n'))
             }
+
           })
         }}
       >
