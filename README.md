@@ -54,6 +54,3 @@ Log in as a superuser and make sure the migrations were successful.
 
 ## Author:
  - Lena Kiseleva
-
-## Link:
-http://178.154.219.182/ 
